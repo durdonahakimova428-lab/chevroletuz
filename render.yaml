@@ -4,7 +4,7 @@ services:
     env: python
     plan: free
     buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
-    startCommand: gunicorn chevroletuz.wsgi:application
+    startCommand: sh -c "python manage.py migrate && python manage.py create_admin && gunicorn chevroletuz.wsgi:application"
     envVars:
       - key: DEBUG
         value: "False"
@@ -12,3 +12,9 @@ services:
         value: "*"
       - key: SECRET_KEY
         sync: false
+      - key: DJANGO_SUPERUSER_USERNAME
+        value: "alo"
+      - key: DJANGO_SUPERUSER_EMAIL
+        value: "ravshanraxmatullayev34@gmail.com"
+      - key: DJANGO_SUPERUSER_PASSWORD
+        value: "Admin12345"

@@ -1,0 +1,23 @@
+{% extends "main/base.html" %}
+{% block title %}Dilerlar — ChevroletUz{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="section-head"><h2>Dilerlar</h2></div>
+    <div class="car-grid">
+      {% for d in dealers %}
+      <div class="car-card">
+        <div class="body">
+          <h3>{{ d.name }}</h3>
+          <div class="desc">{{ d.city }}</div>
+          <div class="desc">{{ d.address }}</div>
+          {% if d.phone %}<div class="desc" style="font-weight:700;">{{ d.phone }}</div>{% endif %}
+        </div>
+      </div>
+      {% empty %}
+      <div class="empty-state">Hozircha dilerlar qo'shilmagan.</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

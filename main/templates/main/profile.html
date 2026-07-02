@@ -1,0 +1,25 @@
+{% extends "main/base.html" %}
+{% block title %}Profil — ChevroletUz{% endblock %}
+{% block content %}
+<div class="profile-wrap">
+  <div style="text-align:center; margin-bottom:24px;">
+    {% if profile.avatar %}
+      <img src="{{ profile.avatar.url }}" class="profile-avatar">
+    {% else %}
+      <div class="profile-avatar" style="background:var(--gray-light); display:flex; align-items:center; justify-content:center; font-size:36px; margin:0 auto;">👤</div>
+    {% endif %}
+    <h2 style="margin-top:14px;">{{ user.username }}</h2>
+    <p style="color:var(--gray);">{{ user.email }}</p>
+  </div>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label style="font-weight:600; font-size:14px;">Profil rasmi</label>
+    {{ form.avatar }}
+    <div style="margin-top:14px;">
+      <label style="font-weight:600; font-size:14px;">Telefon raqami</label>
+      {{ form.phone }}
+    </div>
+    <button type="submit" class="btn-gold" style="border:none; cursor:pointer; width:100%; padding:14px; margin-top:20px;">Saqlash</button>
+  </form>
+</div>
+{% endblock %}

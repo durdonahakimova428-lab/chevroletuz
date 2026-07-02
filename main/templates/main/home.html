@@ -1,0 +1,141 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block title %}ChevroletUz — Bosh sahifa{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+  {% for banner in banners %}
+  <div class="hero-slide" style="display:{% if forloop.first %}flex{% else %}none{% endif %}; width:100%;">
+    <div class="hero-bg" style="background-image:url('{{ banner.image.url }}');"></div>
+    <div class="container">
+      <div class="hero-content">
+        <h1>{{ banner.title }}</h1>
+        <p class="lead">{{ banner.subtitle }}</p>
+        {% if banner.link %}<a href="{{ banner.link }}" class="btn-gold">Batafsil</a>{% endif %}
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="hero-slide" style="display:flex; width:100%;">
+    <div class="hero-bg" style="background:linear-gradient(135deg,#2a2d33,#14161a);"></div>
+    <div class="container">
+      <div class="hero-content">
+        <h1>ChevroletUz bilan tanishing</h1>
+        <p class="lead">Admin panelga banner qo'shing va bu joy jonlanadi</p>
+        <a href="/admin/" class="btn-gold">Admin panelga o'tish</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  {% if banners|length > 1 %}
+    <div class="hero-arrow left">&#8249;</div>
+    <div class="hero-arrow right">&#8250;</div>
+  {% endif %}
+</section>
+{% if banners|length > 1 %}
+<div class="hero-dots">
+  {% for banner in banners %}<span class="{% if forloop.first %}active{% endif %}"></span>{% endfor %}
+</div>
+{% endif %}
+
+<section class="quicklinks">
+  <div class="container">
+    <div class="row">
+      <a class="quicklink" href="{% url 'test_drive' %}">
+        <div class="circle">&#127918;</div>
+        <span class="label">Test drayv</span>
+      </a>
+      <a class="quicklink" href="{% url 'news_list' %}">
+        <div class="circle">&#128172;</div>
+        <span class="label">Maxsus takliflar</span>
+      </a>
+      <a class="quicklink" href="{% url 'dealer_list' %}">
+        <div class="circle">&#128205;</div>
+        <span class="label">Dilerlar</span>
+      </a>
+      <a class="quicklink" href="{% url 'car_list' %}">
+        <div class="circle">&#128663;</div>
+        <span class="label">Onlayn xarid</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>Mashhur modellar</h2>
+      <a class="all" href="{% url 'car_list' %}">Barchasini ko'rish &rarr;</a>
+    </div>
+    <div class="car-grid">
+      {% for car in featured_cars %}
+      <div class="car-card">
+        <div class="img-wrap">
+          {% if car.is_new %}<span class="badge new">Yangi</span>{% endif %}
+          {% if car.has_discount %}<span class="badge">Chegirma</span>{% endif %}
+          <img src="{{ car.main_image.url }}" alt="{{ car.name }}">
+        </div>
+        <div class="body">
+          <h3>{{ car.name }}</h3>
+          <div class="desc">{{ car.short_description }}</div>
+          <div class="price">
+            {% if car.old_price %}<span class="old">{{ car.old_price|floatformat:0 }} so'm</span>{% endif %}
+            {{ car.price|floatformat:0 }} so'm
+          </div>
+          <a class="btn-outline" href="{{ car.get_absolute_url }}">Batafsil</a>
+        </div>
+      </div>
+      {% empty %}
+      <div class="empty-state">Hozircha mashhur modellar qo'shilmagan. Admin panelda Car qo'shing va "Bosh sahifada ko'rsatish" ni belgilang.</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% if discount_cars %}
+<section class="section" style="background:var(--gray-light);">
+  <div class="container">
+    <div class="section-head">
+      <h2>Chegirmadagi modellar</h2>
+    </div>
+    <div class="promo-grid">
+      {% for car in discount_cars %}
+      <a class="promo-card" href="{{ car.get_absolute_url }}">
+        <span class="ribbon">Chegirma</span>
+        <img src="{{ car.main_image.url }}" alt="{{ car.name }}">
+        <div class="info">
+          <h4>{{ car.name }}</h4>
+          <div class="price">{{ car.price|floatformat:0 }} so'mgacha</div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if news_list %}
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>Yangiliklar</h2>
+      <a class="all" href="{% url 'news_list' %}">Barchasini ko'rish &rarr;</a>
+    </div>
+    <div class="car-grid">
+      {% for n in news_list %}
+      <div class="car-card">
+        <div class="img-wrap"><img src="{{ n.image.url }}" alt="{{ n.title }}"></div>
+        <div class="body">
+          <h3>{{ n.title }}</h3>
+          <div class="desc">{{ n.short_text }}</div>
+          <a class="btn-outline" href="{{ n.get_absolute_url }}">O'qish</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% endblock %}

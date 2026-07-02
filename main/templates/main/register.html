@@ -1,0 +1,23 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block title %}Ro'yxatdan o'tish — ChevroletUz{% endblock %}
+{% block content %}
+<div class="auth-wrap">
+  <div class="auth-img" style="background-image:url('{% static "img/auth-bg.jpg" %}');"></div>
+  <div class="auth-form">
+    <h2>Ma'lumotlaringizni kiriting</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.username }}
+      {{ form.email }}
+      {{ form.password }}
+      {{ form.password2 }}
+      <button type="submit" class="btn-gold" style="border:none; cursor:pointer; width:100%; padding:14px; margin-top:8px;">Yuborish</button>
+    </form>
+    <div class="auth-links">
+      <a href="{% url 'home' %}">Asosiy saytga qaytish</a>
+      <a href="{% url 'login' %}">Akkauntingiz bormi? Kirish</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "main/base.html" %}
+{% block title %}Yangiliklar — ChevroletUz{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="section-head"><h2>Yangiliklar</h2></div>
+    <div class="car-grid">
+      {% for n in news_list %}
+      <div class="car-card">
+        <div class="img-wrap"><img src="{{ n.image.url }}" alt="{{ n.title }}"></div>
+        <div class="body">
+          <h3>{{ n.title }}</h3>
+          <div class="desc">{{ n.short_text }}</div>
+          <a class="btn-outline" href="{{ n.get_absolute_url }}">O'qish</a>
+        </div>
+      </div>
+      {% empty %}
+      <div class="empty-state">Hozircha yangiliklar yo'q.</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

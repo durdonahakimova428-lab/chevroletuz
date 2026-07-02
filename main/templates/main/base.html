@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}ChevroletUz{% endblock %}</title>
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="container">
+    <a href="{% url 'dealer_list' %}">Dilerlar</a>
+    <a href="{% url 'news_list' %}">Yangiliklar</a>
+    <a href="{% url 'test_drive' %}">Test-drayv</a>
+  </div>
+</div>
+
+<header class="navbar">
+  <div class="container">
+    <div class="nav-left">
+      <span class="burger">&#9776;</span>
+      <div class="nav-links">
+        <a href="{% url 'car_list' %}">Avtomobillar</a>
+        <a href="{% url 'dealer_list' %}">Dilerlar</a>
+      </div>
+    </div>
+    <a class="brand" href="{% url 'home' %}">
+      <span class="brand-name">CHEVROLET<span style="color:#c9a227;">UZ</span></span>
+    </a>
+    <div class="nav-right">
+      <div class="lang">
+        <span>RU</span><span class="active">UZ</span>
+      </div>
+      {% if user.is_authenticated %}
+        <a href="{% url 'profile' %}">
+          {% if user.profile.avatar %}
+            <img src="{{ user.profile.avatar.url }}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;">
+          {% endif %}
+          {{ user.username }}
+        </a>
+        <a href="{% url 'logout' %}">Chiqish</a>
+      {% else %}
+        <a href="{% url 'login' %}">Kirish</a>
+      {% endif %}
+    </div>
+  </div>
+</header>
+
+<div class="container messages">
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-error{% endif %}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+</div>
+
+<main>
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>Avtomobillar</h4>
+        {% for car in footer_cars %}
+          <a href="{{ car.get_absolute_url }}">{{ car.name }}</a>
+        {% endfor %}
+        <a href="{% url 'car_list' %}">Barchasini ko'rish</a>
+      </div>
+      <div>
+        <h4>Mijozlar uchun</h4>
+        <a href="{% url 'test_drive' %}">Test-drayvga yozilish</a>
+        <a href="#">Texnik xizmat qoidalari</a>
+        <a href="#">Ehtiyot qismlar</a>
+      </div>
+      <div>
+        <h4>Diler</h4>
+        <a href="{% url 'dealer_list' %}">Dilerlar ro'yxati</a>
+        <a href="#">Ichki bozor</a>
+      </div>
+      <div>
+        <h4>Chevrolet haqida</h4>
+        <a href="{% url 'news_list' %}">Yangiliklar</a>
+        <a href="#">Kafolat davri</a>
+        <div class="footer-social">
+          <a href="#">f</a><a href="#">in</a><a href="#">yt</a><a href="#">tg</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>Sayt materiallaridan foydalanganda havolani ko'rsatishingiz kerak<br>© 2026 ChevroletUz</div>
+      <div class="tagline">Together let's drive</div>
+    </div>
+  </div>
+</footer>
+
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

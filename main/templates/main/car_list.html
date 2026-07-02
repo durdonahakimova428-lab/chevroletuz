@@ -1,0 +1,37 @@
+{% extends "main/base.html" %}
+{% block title %}Avtomobillar — ChevroletUz{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="section-head"><h2>Avtomobillar</h2></div>
+    <div class="tabs">
+      <a href="{% url 'car_list' %}" class="{% if not selected_category %}active{% endif %}">Barchasi</a>
+      {% for cat in categories %}
+        <a href="?category={{ cat.slug }}" class="{% if selected_category == cat.slug %}active{% endif %}">{{ cat.name }}</a>
+      {% endfor %}
+    </div>
+    <div class="car-grid">
+      {% for car in cars %}
+      <div class="car-card">
+        <div class="img-wrap">
+          {% if car.is_new %}<span class="badge new">Yangi</span>{% endif %}
+          {% if car.has_discount %}<span class="badge">Chegirma</span>{% endif %}
+          <img src="{{ car.main_image.url }}" alt="{{ car.name }}">
+        </div>
+        <div class="body">
+          <h3>{{ car.name }}</h3>
+          <div class="desc">{{ car.short_description }}</div>
+          <div class="price">
+            {% if car.old_price %}<span class="old">{{ car.old_price|floatformat:0 }} so'm</span>{% endif %}
+            {{ car.price|floatformat:0 }} so'm
+          </div>
+          <a class="btn-outline" href="{{ car.get_absolute_url }}">Batafsil</a>
+        </div>
+      </div>
+      {% empty %}
+      <div class="empty-state">Bu kategoriyada avtomobil topilmadi.</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

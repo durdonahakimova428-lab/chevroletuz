@@ -1,0 +1,19 @@
+{% extends "main/base.html" %}
+{% block title %}Test-drayv — ChevroletUz{% endblock %}
+{% block content %}
+<div class="container" style="max-width:620px; padding:50px 24px;">
+  <div class="testdrive-box">
+    <h3>Test-drayvga yozilish</h3>
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-row">
+        {{ form.full_name }}
+        {{ form.phone }}
+      </div>
+      <div style="margin-bottom:16px;">{{ form.car }}</div>
+      <div style="margin-bottom:16px;">{{ form.message }}</div>
+      <button type="submit" class="btn-gold" style="border:none; cursor:pointer; width:100%;">Yuborish</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

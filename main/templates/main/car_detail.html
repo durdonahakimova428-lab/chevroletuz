@@ -1,0 +1,80 @@
+{% extends "main/base.html" %}
+{% block title %}{{ car.name }} — ChevroletUz{% endblock %}
+{% block content %}
+<div class="car-hero">
+  <img src="{{ car.main_image.url }}" alt="{{ car.name }}">
+</div>
+<div class="car-hero-caption">
+  <div class="container">
+    <div class="eyebrow">{{ car.short_description }}</div>
+    <h1>Chevrolet {{ car.name }}</h1>
+    <div class="sub">
+      {% if car.old_price %}<s>{{ car.old_price|floatformat:0 }} so'm</s> &nbsp;{% endif %}
+      {{ car.price|floatformat:0 }} so'mdan boshlanadi
+    </div>
+    <div class="btns">
+      <a href="#testdrive" class="btn-gold">Test-drayvga yozilish</a>
+      <a href="#" class="btn-outline-white">Onlayn xarid</a>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="specs-grid">
+    <div class="spec-box"><div class="val">{{ car.engine|default:"—" }}</div><div class="label">Dvigatel</div></div>
+    <div class="spec-box"><div class="val">{{ car.transmission|default:"—" }}</div><div class="label">Transmissiya</div></div>
+    <div class="spec-box"><div class="val">{{ car.fuel_type|default:"—" }}</div><div class="label">Yoqilg'i turi</div></div>
+    <div class="spec-box"><div class="val">{{ car.seats }}</div><div class="label">O'rindiqlar soni</div></div>
+  </div>
+
+  {% if car.description %}
+  <div class="section" style="padding-top:0;">
+    <h2 style="font-size:22px;">Tavsif</h2>
+    <p style="color:var(--gray); line-height:1.7; max-width:760px;">{{ car.description|linebreaks }}</p>
+  </div>
+  {% endif %}
+
+  {% if car.gallery.all %}
+  <div class="section" style="padding-top:0;">
+    <h2 style="font-size:22px;">Galereya</h2>
+    <div class="gallery">
+      {% for img in car.gallery.all %}
+        <img src="{{ img.image.url }}" alt="{{ car.name }}">
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="testdrive-box" id="testdrive">
+    <h3>Test-drayvga yoki maslahatga yoziling</h3>
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-row">
+        {{ form.full_name }}
+        {{ form.phone }}
+      </div>
+      {{ form.car.as_hidden }}
+      <div style="margin-bottom:16px;">{{ form.message }}</div>
+      <button type="submit" class="btn-gold" style="border:none; cursor:pointer;">Yuborish</button>
+    </form>
+  </div>
+
+  {% if related_cars %}
+  <div class="section" style="padding-top:0;">
+    <div class="section-head"><h2>Boshqa modellar</h2></div>
+    <div class="car-grid">
+      {% for c in related_cars %}
+      <div class="car-card">
+        <div class="img-wrap"><img src="{{ c.main_image.url }}" alt="{{ c.name }}"></div>
+        <div class="body">
+          <h3>{{ c.name }}</h3>
+          <div class="price">{{ c.price|floatformat:0 }} so'm</div>
+          <a class="btn-outline" href="{{ c.get_absolute_url }}">Batafsil</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

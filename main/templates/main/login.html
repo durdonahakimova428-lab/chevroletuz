@@ -1,0 +1,21 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block title %}Kirish — ChevroletUz{% endblock %}
+{% block content %}
+<div class="auth-wrap">
+  <div class="auth-img" style="background-image:url('{% static "img/auth-bg.jpg" %}');"></div>
+  <div class="auth-form">
+    <h2>Xush kelibsiz!<br>Ma'lumotlaringizni kiriting</h2>
+    <form method="post">
+      {% csrf_token %}
+      <input class="form-control" type="text" name="username" placeholder="Foydalanuvchi nomi" required>
+      <input class="form-control" type="password" name="password" placeholder="Parol" required>
+      <button type="submit" class="btn-gold" style="border:none; cursor:pointer; width:100%; padding:14px;">Kirish</button>
+    </form>
+    <div class="auth-links">
+      <a href="{% url 'home' %}">Asosiy saytga qaytish</a>
+      <a href="{% url 'register' %}">Ro'yxatdan o'tish</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
